@@ -1,0 +1,15 @@
+11:56:38 **** Incremental Build of configuration Debug for project HelloWorld ****
+make all 
+Building file: ../Hello.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"Hello.d" -MT"Hello.o" -o "Hello.o" "../Hello.cpp"
+Finished building: ../Hello.cpp
+ 
+Building target: HelloWorld
+Invoking: GCC C++ Linker
+g++  -o "HelloWorld"  ./Hello.o   
+Finished building target: HelloWorld
+ 
+
+11:56:38 Build Finished. 0 errors, 0 warnings. (took 688ms)
+

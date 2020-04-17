@@ -1,0 +1,15 @@
+22:43:55 **** Build of configuration Debug for project Quarto ****
+make all 
+Building file: ../main.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.o" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: Quarto
+Invoking: GCC C++ Linker
+g++ -L/usr/include -o "Quarto"  ./main.o   -lallegro
+Finished building target: Quarto
+ 
+
+22:43:56 Build Finished. 0 errors, 0 warnings. (took 734ms)
+

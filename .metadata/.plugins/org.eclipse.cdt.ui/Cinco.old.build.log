@@ -1,0 +1,6 @@
+08:51:21 **** Incremental Build of configuration Debug for project Cinco.old ****
+make all 
+make: Nothing to be done for 'all'.
+
+08:51:22 Build Finished. 0 errors, 0 warnings. (took 322ms)
+

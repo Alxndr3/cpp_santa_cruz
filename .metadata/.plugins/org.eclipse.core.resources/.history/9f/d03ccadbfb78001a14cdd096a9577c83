@@ -1,0 +1,65 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <ctime>
+
+void draw_ship(int display_height) {
+	int x = 40;
+	int y = display_height = 50;
+	int r = 255;
+	int g = 0;
+	int b = 0;
+	for(int i = 0; i < 3; i++) {
+	// Spaceship turbines
+		al_draw_filled_rectangle(x, y - 9, x + 10, y - 7, al_map_rgb(r, g, b));
+		al_draw_filled_rectangle(x, y + 9, x + 10, y + 7, al_map_rgb(r, g, b));
+		// Spaceship body
+		al_draw_filled_triangle(x - 12, y - 17, x + 12, y, x - 12, y + 17, al_map_rgb(0, 200, 0));
+		al_draw_filled_rectangle(x - 12, y - 2, x + 15, y + 2, al_map_rgb(0, 200, 0));
+		y += 230;
+		if(i == 1) {
+			r = 0;
+			g = 255;
+		}
+		else if(i == 2) {
+			g = 255;
+			b = 255;
+		}
+		al_flip_display();
+	}
+}
+
+void draw_stars(ALLEGRO_COLOR color_bg) {
+	srand(time(NULL));
+	for(int i = 0; i < 500; i++) {
+		int star_width = rand() % 800;
+		int star_height = rand() % 600;
+		al_draw_pixel(star_width, star_height, al_map_rgb(255, 255, 255));
+		al_flip_display();
+	}
+}
+
+
+int main() {
+	int display_width = 800;
+	int display_heigth = 600;
+
+	ALLEGRO_DISPLAY *display = NULL;
+	ALLEGRO_COLOR color_bg = al_map_rgb(0, 0, 0);
+	al_init();
+	al_init_primitives_addon();
+
+	display = al_create_display(display_width, display_heigth);
+	al_set_window_position(display, 300, 50);
+	al_set_window_title(display, "*** Spaceship Game ***");
+	al_clear_to_color(color_bg);
+
+	for(int x = 0; x < 10; x++) {
+		draw_ship(display_width);
+		draw_stars(color_bg);
+		al_clear_to_color(color_bg);
+	}
+
+	al_flip_display();
+	al_rest(7.0);
+	al_destroy_display(display);
+}

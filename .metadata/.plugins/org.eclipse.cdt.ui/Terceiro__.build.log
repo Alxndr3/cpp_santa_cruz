@@ -1,0 +1,12 @@
+23:47:01 **** Incremental Build of configuration Debug for project Terceiro__ ****
+make all 
+Building file: ../src/main.cpp
+Invoking: GCC C++ Compiler
+g++ -I/usr/include/allegro5 -include/usr/include/allegro5 -include/usr/include/allegro5/allegro.h -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/main.d" -MT"src/main.d" -o "src/main.o" "../src/main.cpp"
+cc1plus: fatal error: /usr/include/allegro5: No such file or directory
+compilation terminated.
+make: *** [src/subdir.mk:20: src/main.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+
+23:47:02 Build Failed. 1 errors, 0 warnings. (took 361ms)
+

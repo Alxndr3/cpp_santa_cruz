@@ -1,0 +1,15 @@
+10:14:30 **** Build of configuration Debug for project Tres ****
+make all 
+Building file: ../src/main.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.cpp"
+Finished building: ../src/main.cpp
+ 
+Building target: Tres
+Invoking: GCC C++ Linker
+g++ -L/usr/include -o "Tres"  ./src/main.o   -lallegro
+Finished building target: Tres
+ 
+
+10:14:31 Build Finished. 0 errors, 0 warnings. (took 469ms)
+

@@ -1,0 +1,28 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+
+int main() {
+	int display_width = 800;
+	int display_heigth = 600;
+
+	ALLEGRO_DISPLAY *display = NULL;
+	ALLEGRO_COLOR color_bg = al_map_rgb(0, 0, 0);
+	al_init();
+	al_init_primitives_addon();
+
+	display = al_create_display(display_width, display_heigth);
+	al_set_window_position(display, 300, 50);
+	al_set_window_title(display, "*** Spaceship Game ***");
+	al_clear_to_color(color_bg);
+
+	for(int x = 0; x < 10; x++) {
+		draw_ship();
+		draw_stars(color_bg);
+		draw_squares();
+		al_clear_to_color(color_bg);
+	}
+
+	al_flip_display();
+	al_rest(3.0);
+	al_destroy_display(display);
+}

@@ -1,0 +1,15 @@
+13:28:58 **** Build of configuration Debug for project Onze ****
+make all 
+Building file: ../Main.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"Main.d" -MT"Main.o" -o "Main.o" "../Main.cpp"
+Finished building: ../Main.cpp
+ 
+Building target: Onze
+Invoking: GCC C++ Linker
+g++ -L/usr/include -o "Onze"  ./Main.o   -lallegro_primitives -lallegro
+Finished building target: Onze
+ 
+
+13:28:59 Build Finished. 0 errors, 0 warnings. (took 541ms)
+

@@ -1,0 +1,31 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_native_dialog.h>
+
+void move_bola(float px, float py, float raio, ALLEGRO_COLOR cor_fundo, ALLEGRO_COLOR cor_bola,
+		int v, int dir_x, int dir_y, int flag) {
+	if(flag == 0) {
+		al_draw_filled_circle(px, py, raio, cor_bola);
+	}
+	else {
+		al_draw_circle(px, py, raio, cor_bola, flag);
+		al_flip_display();
+		al_rest(0.005);
+		al_clear_to_color(cor_fundo);
+	}
+}
+
+int main() {
+	int tela_largura = 600;
+	int tela_altura = 480;
+	float bola_velocidade = 1;
+
+	ALLEGRO_DISPLAY *tela = NULL;
+	al_init();
+	al_init_primitives_addon();
+	ALLEGRO_COLOR cor_fundo = al_map_rgb(0, 0, 0);
+	ALLEGRO_COLOR cor_bola = al_map_rgb(0, 100, 0);
+	al_set_new_display_flags(ALLEGRO_WINDOWED);
+	tela = al_create_display(tela_largura, tela_altura);
+
+}

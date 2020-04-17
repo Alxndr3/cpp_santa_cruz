@@ -1,0 +1,15 @@
+10:06:35 **** Incremental Build of configuration Debug for project Seis ****
+make all 
+Building file: ../main.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.o" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: Seis
+Invoking: GCC C++ Linker
+g++ -L/usr/include -o "Seis"  ./main.o   -lallegro -lallegro_ttf -lallegro_font
+Finished building target: Seis
+ 
+
+10:06:36 Build Finished. 0 errors, 0 warnings. (took 581ms)
+

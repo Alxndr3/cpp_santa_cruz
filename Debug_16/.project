@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Debug_16</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>16</name>
+			<type>1</type>
+			<location>/home/alexandre/eclipse-workspace/Cpp/Dezessete/Debug/16</location>
+		</link>
+	</linkedResources>
+</projectDescription>

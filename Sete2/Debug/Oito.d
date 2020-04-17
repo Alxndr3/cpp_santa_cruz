@@ -1,0 +1,1 @@
+Oito.o: ../Oito.cpp

@@ -1,0 +1,26 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+
+int main()
+{
+	int width_screen = 640;
+	int height_screen = 480;
+
+	ALLEGRO_DISPLAY *display;
+	al_init();
+	al_init_primitives_addon();
+	ALLEGRO_COLOR  cor_ponto = al_map_rgb(255, 255, 255);
+	ALLEGRO_COLOR  cor_fundo = al_map_rgb(0, 0, 0);
+
+	al_set_new_display_flags(ALLEGRO_WINDOWED);
+	al_set_new_display_flags(ALLEGRO_RESIZABLE);
+	display = al_create_display(width_screen, height_screen);
+
+	al_clear_to_color(cor_fundo);
+	al_draw_pixel(10, 10, cor_ponto);
+
+	al_flip_display();
+	al_rest(5);
+
+	al_destroy_display(display);
+}

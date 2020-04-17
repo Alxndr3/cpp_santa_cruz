@@ -1,0 +1,8 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_native_dialog.h>
+
+void move_bola(float px, float py, float raio, ALLEGRO_COLOR cor_fundo, ALLEGRO_COLOR cor_bola, int v, int dir_x,
+		int dir_y, int flag) {
+
+}

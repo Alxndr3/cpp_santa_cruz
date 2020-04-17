@@ -1,0 +1,7 @@
+18:21:57 **** Incremental Build of configuration Default for project Dezesseis ****
+make all 
+make: *** No rule to make target 'all'.  Stop.
+"make all" terminated with exit code 2. Build might be incomplete.
+
+18:21:57 Build Failed. 1 errors, 0 warnings. (took 439ms)
+

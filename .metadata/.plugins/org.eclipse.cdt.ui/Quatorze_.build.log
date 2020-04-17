@@ -1,0 +1,15 @@
+21:34:28 **** Incremental Build of configuration Debug for project Quatorze_ ****
+make all 
+Building file: ../main.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.o" -o "main.o" "../main.cpp"
+Finished building: ../main.cpp
+ 
+Building target: Quatorze_
+Invoking: GCC C++ Linker
+g++ -L/usr/include -o "Quatorze_"  ./main.o   -lallegro -lallegro_primitives
+Finished building target: Quatorze_
+ 
+
+21:34:28 Build Finished. 0 errors, 0 warnings. (took 488ms)
+
