@@ -75,6 +75,12 @@
                                     									
                                     <listOptionValue builtIn="false" value="allegro"/>
                                     									
+                                    <listOptionValue builtIn="false" value="allegro_font"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="allegro_ttf"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="allegro_dialog"/>
+                                    									
                                     <listOptionValue builtIn="false" value="allegro_primitives"/>
                                     								
                                 </option>
@@ -238,5 +244,7 @@
     <storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
     	
     <storageModule moduleId="refreshScope"/>
+    	
+    <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
     
 </cproject>
