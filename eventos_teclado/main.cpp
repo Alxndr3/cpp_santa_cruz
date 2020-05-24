@@ -98,7 +98,6 @@ void evento_teclado03(bool continuar, ALLEGRO_EVENT_QUEUE *fila_eventos,
 				else {
 					continuar = true;
 				}
-
 			}
 			else if(event.keyboard.keycode == ALLEGRO_KEY_W) {
 				std::cout << "A tecla 'W' pressionada foi " << std::endl;
@@ -277,8 +276,8 @@ void evento_teclado06(bool continuar, ALLEGRO_EVENT_QUEUE *fila_eventos, ALLEGRO
 		ALLEGRO_DISPLAY *tela, ALLEGRO_FONT *font, int x1, int y1, int x2, int y2,
 		int speed, ALLEGRO_COLOR cor_fundo, int shape, ALLEGRO_COLOR cor_shape, int filled_shape) {
 
-	//al_draw_rectangle(x1, y1, x2, y2, cor_shape, 2);
-	//al_flip_display();
+	al_draw_rectangle(x1, y1, x2, y2, cor_shape, 2);
+	al_flip_display();
 	// Loop principal
 	while(continuar) {
 		ALLEGRO_COLOR filled_shape_color;
@@ -389,6 +388,67 @@ void evento_teclado07(ALLEGRO_DISPLAY *tela, ALLEGRO_FONT *font_18, ALLEGRO_FONT
 	al_rest(5);
 }
 
+void evento_teclado08(bool continuar, ALLEGRO_EVENT_QUEUE *fila_eventos, ALLEGRO_EVENT event,
+		ALLEGRO_DISPLAY *tela, ALLEGRO_FONT *font_32, ALLEGRO_FONT *font_18, ALLEGRO_FONT *font_14,
+		ALLEGRO_COLOR cor_fundo) {
+	int x = 542; int y = 432;
+	while(continuar) {
+		al_draw_filled_rectangle(450, 360, 780, 550, al_map_rgb(0, 100, 0));
+		al_draw_text(font_18, cor_fundo, 580, 400, 0, "Menu Inicial");
+		al_draw_line(540, 420, 710, 420, cor_fundo, 2);
+		al_draw_text(font_14, cor_fundo, 560, 430, 0, "(I) Iniciar");
+		al_draw_text(font_14, cor_fundo, 560, 450, 0, "(C) Carregar um Jogo");
+		al_draw_text(font_14, cor_fundo, 560, 470, 0, "(S) Sair");
+		al_draw_filled_rectangle(x, y, x + 15, y + 15, cor_fundo);
+		al_flip_display();
+
+		al_wait_for_event(fila_eventos, &event);
+		if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			if(event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
+				y += 19;
+			}
+			else if(event.keyboard.keycode == ALLEGRO_KEY_UP) {
+				y -= 19;
+			}
+			else if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+				std::cout << "A tecla Esc foi pressionada" << std::endl;
+				if(al_show_native_message_box(tela, "Esc", "Sair: ", "Deseja sair?", NULL, ALLEGRO_MESSAGEBOX_YES_NO) == 1) {
+					continuar = false;
+				}
+				else {
+					continuar = true;
+				}
+			}
+			al_draw_filled_rectangle(x, y, x + 15, y + 15, cor_fundo);
+			if(y == 432) {
+				al_clear_to_color(cor_fundo);
+				al_draw_text(font_32, al_map_rgb(255, 255, 0), 200, 200, 0, "Você Selecionou Iniciar");
+			}
+			else if(y == 451) {
+				al_clear_to_color(cor_fundo);
+				al_draw_text(font_32, al_map_rgb(255, 255, 0), 200, 200, 0, "Você Selecionou Carregar");
+			}
+			else if(y == 470 or y < 432) {
+				al_clear_to_color(cor_fundo);
+				al_draw_text(font_32, al_map_rgb(255, 255, 0), 200, 200, 0, "Você Selecionou Sair");
+				if(al_show_native_message_box(tela, "Sair", "Sair: ", "Deseja sair?", NULL, ALLEGRO_MESSAGEBOX_YES_NO) == 1) {
+					continuar = false;
+				}
+				else {
+					continuar = true;
+				}
+			}
+			if(y > 470) {
+				y = 432;
+			}
+			if(y < 432) {
+				y = 470;
+			}
+		}
+		al_flip_display();
+	}
+}
+
 int main() {
 	int tela_largura = 1000;
 	int tela_altura = 600;
@@ -423,8 +483,6 @@ int main() {
 	font_32 = al_load_font("arial.ttf", 32, 0);
 	// Variáveis para desenhar teclado
 	int x1 = 20; int y1 = 20; int x2 = 50; int y2 = 50;
-	int t_x1 = 20; int t_y1 = 20; int t_x2 = 50; int t_y2 = 20; int t_x3 = 20; int t_y3 = 50;
-	int cx = 40; int cy = 40; int r = 20;
 	int speed = 10;
 	int shape = 4;
 	int filled_shape = 100;
@@ -445,6 +503,7 @@ int main() {
 	//evento_teclado05(continuar, fila_eventos, event, tela, font_32, x1, y1, x2, y2, t_x1, t_y1, t_x2, t_y2, t_x3, t_y3, cx, cy, r);
 	//evento_teclado06(continuar, fila_eventos, event, tela, font_32, x1, y1, x2, y2, speed, cor_fundo, shape, cor_shape, filled_shape);
 	//evento_teclado07(tela, font_18, font_14, cor_fundo);
+	evento_teclado08(continuar, fila_eventos, event,tela, font_32, font_18, font_14, cor_fundo);
 
 	// Destrói os ponteiros criados para evitar o consumo desnecessário de memória
 	al_destroy_display(tela);
