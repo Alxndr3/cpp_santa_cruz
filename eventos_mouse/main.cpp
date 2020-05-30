@@ -161,6 +161,31 @@ void eventos_mouse04(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 	}
 }
 
+void eventos_mouse05(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue, ALLEGRO_EVENT event, bool continue_, ALLEGRO_COLOR color_bg, int position_x, int position_y) {
+	while(continue_) {
+		al_wait_for_event(event_queue, &event);
+		if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+				if(al_show_native_message_box(display, "Esc", "Sair: ", "Deseja sair?", NULL, ALLEGRO_MESSAGEBOX_YES_NO) == 1) {
+					continue_ = false;
+				}
+				else {
+					continue_ = true;
+				}
+			}
+		}
+		al_draw_filled_rectangle(0, 330, 1000, 600, al_map_rgb(0, 100, 0));
+		al_draw_filled_rectangle(80, 310, 150, 330, al_map_rgb(150, 0, 0));
+		al_draw_circle(300, 310, 20, al_map_rgb(255, 255, 0), 1);
+		al_draw_rectangle(290, 300, 310, 320, al_map_rgb(255, 255, 0), 1);
+		al_draw_line(280, 310, 290, 310, al_map_rgb(255, 255, 0), 1);
+		al_draw_line(310, 310, 320, 310, al_map_rgb(255, 255, 0), 1);
+		al_draw_line(300, 290, 300, 300, al_map_rgb(255, 255, 0), 1);
+		al_draw_line(300, 320, 300, 330, al_map_rgb(255, 255, 0), 1);
+		al_flip_display();
+	}
+}
+
 int main() {
 	// Variáveis da tela
 	const int screen_width = 1000;
@@ -189,7 +214,8 @@ int main() {
 	// eventos_mouse01(display, event_queue, event, continue_, color_bg);
 	// eventos_mouse02(display, event_queue, event, continue_, color_bg, position_x, position_y);
 	// eventos_mouse03(display, event_queue, event, continue_, color_bg, color_circle, position_x, position_y);
-	eventos_mouse04(display, event_queue, event, continue_, color_bg, color_circle, position_x, position_y);
+	//eventos_mouse04(display, event_queue, event, continue_, color_bg, color_circle, position_x, position_y);
+	eventos_mouse05(display, event_queue, event, continue_, color_bg, position_x, position_y);
 
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
