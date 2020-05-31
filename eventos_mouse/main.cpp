@@ -186,6 +186,41 @@ void eventos_mouse05(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 	}
 }
 
+void eventos_mouse06(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
+		ALLEGRO_EVENT event, bool continue_, ALLEGRO_COLOR color_bg, ALLEGRO_COLOR color_circle, int position_x, int position_y) {
+
+	while(continue_) {
+		al_wait_for_event(event_queue, &event);
+		if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+				if(al_show_native_message_box(display, "Esc", "Sair: ", "Deseja sair?", NULL, ALLEGRO_MESSAGEBOX_YES_NO) == 1) {
+					continue_ = false;
+				}
+				else {
+					continue_ = true;
+				}
+			}
+		}
+		else if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+			if(event.mouse.button & 1) {
+				std::cout << "O botão direito do mouse foi pressionado" << std::endl;
+			}
+			else if(event.mouse.button & 2) {
+				std::cout << "O botão esquerdo do mouse foi pressionado" << std::endl;
+			}
+		}
+		else if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+			std::cout << "Soltou o botão do mouse" << std::endl;
+		}
+		else if(event.type == ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY) {
+			std::cout << "Mouse no display" << std::endl;
+		}
+		else if(event.type == ALLEGRO_EVENT_MOUSE_LEAVE_DISPLAY) {
+			std::cout << "Mouse fora do display" << std::endl;
+		}
+	}
+}
+
 int main() {
 	// Variáveis da tela
 	const int screen_width = 1000;
@@ -215,7 +250,8 @@ int main() {
 	// eventos_mouse02(display, event_queue, event, continue_, color_bg, position_x, position_y);
 	// eventos_mouse03(display, event_queue, event, continue_, color_bg, color_circle, position_x, position_y);
 	//eventos_mouse04(display, event_queue, event, continue_, color_bg, color_circle, position_x, position_y);
-	eventos_mouse05(display, event_queue, event, continue_, color_bg, position_x, position_y);
+	//eventos_mouse05(display, event_queue, event, continue_, color_bg, position_x, position_y);
+	eventos_mouse06(display, event_queue, event, continue_, color_bg, color_circle, position_x, position_y);
 
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
