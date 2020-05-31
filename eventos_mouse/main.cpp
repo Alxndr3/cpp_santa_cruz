@@ -77,13 +77,15 @@ void eventos_mouse02(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 
 void eventos_mouse03(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 		ALLEGRO_EVENT event, bool continue_, ALLEGRO_COLOR color_bg, ALLEGRO_COLOR color_circle, int position_x, int position_y) {
-
+	// Desenha um quadrado na tela
 	al_draw_filled_rectangle(position_x, position_y, position_x + 10, position_y +10, al_map_rgb(255, 255, 0));
 	al_flip_display();
 
 	while(continue_) {
 		al_wait_for_event(event_queue, &event);
+		// Identifica se uma tecla do teclado foi pressionada
 		if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			// Caso a tecla ESC for pressionada mostra uma janela com as opções para encerrar ou permanecer no jogo.
 			if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 				if(al_show_native_message_box(display, "Esc", "Sair: ", "Deseja sair?", NULL, ALLEGRO_MESSAGEBOX_YES_NO) == 1) {
 					continue_ = false;
@@ -93,6 +95,7 @@ void eventos_mouse03(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 				}
 			}
 		}
+		// Identifica se um botão do mouse foi pressionado.
 		if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 			// Botão direito do Mouse
 			if(event.mouse.button == 2) {
@@ -119,15 +122,17 @@ void eventos_mouse03(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 
 void eventos_mouse04(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 		ALLEGRO_EVENT event, bool continue_, ALLEGRO_COLOR color_bg, ALLEGRO_COLOR color_circle, int position_x, int position_y) {
-
+	// Variável para identificar se o botão do mouse esta pressionado ou liberado
 	bool button_down;
-
+	// Desenha um quadrado na tela
 	al_draw_filled_rectangle(position_x, position_y, position_x + 10, position_y +10, al_map_rgb(255, 255, 0));
 	al_flip_display();
 
 	while(continue_) {
 		al_wait_for_event(event_queue, &event);
+		// Detecta se uma tecla do teclado foi pressionada.
 		if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			// Caso a tecla ESC for pressionada mostra uma janela com as opções para encerrar ou permanecer no jogo.
 			if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 				if(al_show_native_message_box(display, "Esc", "Sair: ", "Deseja sair?", NULL, ALLEGRO_MESSAGEBOX_YES_NO) == 1) {
 					continue_ = false;
@@ -137,6 +142,7 @@ void eventos_mouse04(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 				}
 			}
 		}
+		// Identifica qual botão do mouse foi pressionado, atribui uma cor para ele e define a variável button_down como true
 		if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 			if(event.mouse.button & 1) {
 				button_down = true;
@@ -147,13 +153,16 @@ void eventos_mouse04(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 				color_circle = al_map_rgb(0, 0, 255);
 			}
 		}
+		// Identifica quando o botão do mouse é liberado e atribui a variável button_down como false
 		else if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 			button_down = false;
 		}
+		// Identifica a posição do mouse na tela
 		else if(event.type == ALLEGRO_EVENT_MOUSE_AXES) {
 			position_x = event.mouse.x;
 			position_y = event.mouse.y;
 		}
+		// Desenha na tela quando um dos botões do mouse estiverem pressionados
 		if(button_down) {
 			al_draw_filled_circle(position_x, position_y, 10, color_circle);
 			al_flip_display();
@@ -201,7 +210,9 @@ void eventos_mouse06(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 				}
 			}
 		}
+		// Função que identifica quando o botão do mouse é pressionado
 		else if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+			// Identifica se o botão pressionado foi o direito ou esquerdo
 			if(event.mouse.button & 1) {
 				std::cout << "O botão direito do mouse foi pressionado" << std::endl;
 			}
@@ -209,12 +220,15 @@ void eventos_mouse06(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue,
 				std::cout << "O botão esquerdo do mouse foi pressionado" << std::endl;
 			}
 		}
+		// Função que identifica quando o botão do mouse é liberado
 		else if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 			std::cout << "Soltou o botão do mouse" << std::endl;
 		}
+		// Função que identifica quando o cursor do mouse sai da tela
 		else if(event.type == ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY) {
 			std::cout << "Mouse no display" << std::endl;
 		}
+		// Função que identifica quando o cursor do mouse entra da tela
 		else if(event.type == ALLEGRO_EVENT_MOUSE_LEAVE_DISPLAY) {
 			std::cout << "Mouse fora do display" << std::endl;
 		}
