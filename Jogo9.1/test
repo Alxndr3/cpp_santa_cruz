@@ -1,0 +1,19 @@
+
+					amo--;
+					if(pos_x_player >= pos_x_enemy_1 + radius_enemy_1 && pos_x_player <= pos_x_enemy_1 - radius_enemy_1) {
+						if(pos_y_player >= pos_y_enemy_1 + radius_enemy_1 && pos_y_player <= pos_y_enemy_1 - radius_enemy_1 ) {
+							shot++;
+							}
+							}
+							
+							
+							
+						
+			int pos_x_enemy_1 = enemy_1.enemy_x;
+		int pos_y_enemy_1 = enemy_1.enemy_y;
+		int pos_x_enemy_2 = enemy_2.enemy_x;
+		int pos_y_enemy_2 = enemy_2.enemy_y;
+		int pos_x_enemy_3 = enemy_3.enemy_x;
+		int pos_y_enemy_3 = enemy_3.enemy_y;
+		int radius_enemy_1 = enemy_1.radius;	
+						
