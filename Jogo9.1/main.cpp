@@ -2,7 +2,11 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 
 
@@ -44,40 +48,57 @@ class inimigo {
 
 public:
 	// Atributos
+	bool active;
+	bool check;
 	float pos_enemy_x;
 	float pos_enemy_y;
 	float speed;
 	int radius;
 	int direction_x;
 	int direction_y;
-	int amo;
 	int shot;
 	int r;
 	int g;
 	int b;
-	bool active = NULL;
 	ALLEGRO_COLOR color;
 
 	inimigo() {
 		std::cout << "Inimigo Instanciado" << std::endl;
+		this -> active = true;
+		this -> check = false;
 		this -> pos_enemy_x = rand() % 750 + 40; // Gera números entre 40 e 750
 		this -> pos_enemy_y = rand() % 550 + 40; // Gera números entre 550 e 40
 		this -> radius = rand() % 40 + 15; // Gera números entre 40 e 15
-		this -> speed = (rand() % 10 + 1) * 0.01;
+		this -> speed = (rand() % 10 + 1) * 0.09;
 		this -> direction_x = (rand() % 6 ) -3;
 		this -> direction_y = (rand() % 6 ) -3;
-		this -> amo = 10;
 		this -> shot = 0;
 		this -> r = rand() % 255 + 100;
 		this -> g = rand() % 255 + 140;
 		this -> b = rand() % 255 + 190;
-		this -> active = true;
 		this -> color = al_map_rgb(r, g, b);
 		std::cout << "Características definidas" << std::endl;
 	}
 
 	void desenha_inimigo() {
-		al_draw_filled_circle(this->pos_enemy_x, this->pos_enemy_y, this->radius, this->color);
+		// Os circulos (inimigos) serão desenhados apenas quando as variável active corresponder a true.
+		// Em nosso jogo quado atingimos uma instância do objeto é atribuído o valor false a ela.
+		// O sinal % (module) em lógica de programação representa o resto da divisão ex:
+		// 4%2=0 3%2=1
+		// No códia abaixo a variável active tornaral a ter seu valor atribuído como true caso a n seja igual a zero
+		// Module de uma divisão por 1000 variará de 0 999, quando este valor for igual a 0 será atribuído o valor
+		// true a variável active então o objeto inimigo voltará a ser desenhado.
+		// De maneira que a velocidade do loop principal em c++ é extremamente rápida, brevemente o número será
+		// sorteado.
+		if(this -> active) {
+			al_draw_filled_circle(this->pos_enemy_x, this->pos_enemy_y, this->radius, this->color);
+		}
+		else {
+			int n = rand() % 1000;
+			if(n == 0) {
+				this -> active = true;
+			}
+		}
 	}
 
 	void atualiza_inimigo() {
@@ -102,10 +123,13 @@ public:
 	}
 
 	void verifica_disparos(int pos_x_player, int pos_y_player) {
-		amo--;
-		if(pos_x_player >= pos_enemy_x- radius && pos_x_player <= pos_enemy_x + radius) {
-			if(pos_y_player >= pos_enemy_y - radius && pos_y_player <= pos_enemy_y + radius) {
-				shot++;
+		this -> check = false;
+		if(pos_x_player >= this -> pos_enemy_x - this -> radius && pos_x_player <= this -> pos_enemy_x + radius) {
+			if(pos_y_player >= this -> pos_enemy_y - this -> radius && pos_y_player <= this -> pos_enemy_y + this -> radius) {
+				this -> shot++;
+				this -> check = true;
+				this -> active = false;
+				std::cout << "Acertou o alvo!" << std::endl;
 			}
 		}
 	}
@@ -126,6 +150,7 @@ int main() {
 
 	srand(time(NULL));
 	bool continue_ = true;
+	bool recharge = false;
 	int screen_width = 800;
 	int screen_hight = 600;
 	int pos_x_player = 0;
@@ -140,6 +165,10 @@ int main() {
 	al_init_ttf_addon();
 	al_install_keyboard();
 	al_install_mouse();
+	// Addons de Audio
+	al_init_acodec_addon();
+	al_install_audio();
+	al_reserve_samples(10);
 	// Instancia da classe inimigo
 	inimigo enemy_1;
 	inimigo enemy_2;
@@ -154,15 +183,46 @@ int main() {
 	ALLEGRO_EVENT ev;
 	ALLEGRO_COLOR color_bg = al_map_rgb(0, 0, 0);
 	ALLEGRO_COLOR color_rect = al_map_rgb(255, 255, 255);
-
+	// Carregar trilha sonora.
+	ALLEGRO_SAMPLE *trilha_sonora = al_load_sample("audio/trilha_sonora.ogg");
+	// Instanciar a trilha sonora.
+	ALLEGRO_SAMPLE_INSTANCE *inst_trilha_sonora = al_create_sample_instance(trilha_sonora);
+	// Carregar som para o laser.
+	ALLEGRO_SAMPLE *laser = al_load_sample("audio/laser.wav");
+	// Instanciar o som do laser.
+	ALLEGRO_SAMPLE_INSTANCE *inst_laser = al_create_sample_instance(laser);
+	// Carregar som da explosão.
+	ALLEGRO_SAMPLE *explosao = al_load_sample("audio/explosao.wav");
+	// Instanciar o som da explosao.
+	ALLEGRO_SAMPLE_INSTANCE *inst_explosao = al_create_sample_instance(explosao);
+	// Carregar som do aplauso.
+	ALLEGRO_SAMPLE *aplausos= al_load_sample("audio/aplausos.wav");
+	// Instanciar o som do aplauso.
+	ALLEGRO_SAMPLE_INSTANCE *inst_aplausos = al_create_sample_instance(aplausos);
+	// Mixar a trilha sonora.
+	al_attach_sample_instance_to_mixer(inst_trilha_sonora, al_get_default_mixer());
+	// Definir que a trilha sonora se repita durante todo o jogo.
+	al_set_sample_instance_playmode(inst_trilha_sonora, ALLEGRO_PLAYMODE_LOOP);
+	// Modificar o volume do som.
+	al_set_sample_instance_gain(inst_trilha_sonora, 0.8);
+	// Mixar a trilha do laser.
+	al_attach_sample_instance_to_mixer(inst_laser, al_get_default_mixer());
+	// Mixar a trilha da explosão.
+	al_attach_sample_instance_to_mixer(inst_explosao, al_get_default_mixer());
+	// Mixar a trilha do aplauso.
+	al_attach_sample_instance_to_mixer(inst_aplausos, al_get_default_mixer());
 	// Devinir a fila de eventos para teclado e mouse.
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_mouse_event_source());
-
-	al_hide_mouse_cursor(display); // Ocultar cursor do mouse
+	// Ocultar cursor do mouse
+	al_hide_mouse_cursor(display);
+	// Tocar a trilha sonora
+	al_play_sample_instance(inst_trilha_sonora);
 
 	al_clear_to_color(color_bg);
+	al_draw_text(font_2, al_map_rgb(30, 255, 30), 180, 250, 0, "LET'S GET STARTED!!!");
 	al_flip_display();
+	al_rest(3);
 
 	while(continue_) {
 		al_clear_to_color(color_bg);
@@ -178,14 +238,12 @@ int main() {
 		enemy_3.verifica_limites(screen_width, screen_hight);
 		player.desenha_jogador();
 		draw_score(amo, shot, pos_x_player, pos_y_player, color_bg, color_rect, font_1);
-
+		// Caso o valor da variável amo seja zero o jogo é interrompido
 		if(amo == 0) {
 			al_draw_text(font_2, al_map_rgb(255, 30, 30), 180, 250, 0, "GAME OVER DUDE >8>D");
 			al_flip_display();
 			al_rest(3.0);
-			continue_ = false;
-		}
-
+			continue_ = false; }
 		count += 1;
 
 		al_flip_display();
@@ -205,14 +263,43 @@ int main() {
 				player.atualiza_jogador(pos_x_player, pos_y_player);
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+				if(ev.mouse.button == 2) {
+					amo = 10;
+					recharge = true;
+				}
 				// Botão esquerdo do mouse.
 				if(ev.mouse.button == 1) {
+					// Para evitar atraso de sons caso mais de um laser seja atirado antes de acabar o som do anterior
+					al_stop_sample_instance(inst_laser);
+					al_play_sample_instance(inst_laser);
 					std::cout << "X = " << pos_x_player << std::endl;
 					std::cout << "Y = " << pos_y_player << std::endl;
 					std::cout << "---------------------" << std::endl;
 					enemy_1.verifica_disparos(pos_x_player, pos_y_player);
 					enemy_2.verifica_disparos(pos_x_player, pos_y_player);
 					enemy_3.verifica_disparos(pos_x_player, pos_y_player);
+					if(enemy_1.check) {
+						shot++ ;
+						al_stop_sample_instance(inst_explosao);
+						al_play_sample_instance(inst_explosao);
+					}
+					else if(enemy_2.check) {
+						shot++ ;
+						al_stop_sample_instance(inst_explosao);
+						al_play_sample_instance(inst_explosao);
+					}
+					else if(enemy_3.check) {
+						shot++ ;
+						al_stop_sample_instance(inst_explosao);
+						al_play_sample_instance(inst_explosao);
+					}
+					amo--;
+					if(shot == 8 && amo == 2 && recharge == false) {
+						al_play_sample_instance(inst_aplausos);
+					}
+					if(shot == 30) {
+						al_play_sample_instance(inst_aplausos);
+					}
 				}
 			}
 		}
